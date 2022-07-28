@@ -432,6 +432,10 @@ namespace MudBlazor
                 Context.Selection.Remove(item);
             SelectedItemsChanged.InvokeAsync(SelectedItems);
         }
+        protected void ZondOnRowCheckboxChanged(bool value, T item)
+        {
+            OnRowCheckboxChanged(value, item);
+        }
 
         internal override void OnHeaderCheckboxClicked(bool value)
         {
