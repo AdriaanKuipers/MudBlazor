@@ -70,14 +70,12 @@
                     }                    
                     else
                     {
-                        @if (CurrentPageItems != null && CurrentPageItems.Count() > 0)
-                        {
+                        
                             var rowIndex = 0;
                             <Virtualize ItemsProvider="@ItemsProvider" Context="item">
                                @{ var rowClass = new CssBuilder(RowClass).AddClass(RowClassFunc?.Invoke(item, rowIndex)).Build(); }
                                @{ var rowStyle = new StyleBuilder().AddStyle(RowStyle).AddStyle(RowStyleFunc?.Invoke(item, rowIndex)).Build(); }
-                               <MudTr Class="@rowClass" Style="@rowStyle" Item="item" @key="item" IsCheckable="MultiSelection" IsEditable="IsEditable" 
-                                      IsCheckedChanged="((value) => { var x = item; ZondOnRowCheckboxChanged(value, x); })">
+                               <MudTr Class="@rowClass" Style="@rowStyle" Item="item" @key="item" IsEditable="IsEditable" >
 
                                    @if ((!ReadOnly) && IsEditable && object.Equals(_editingItem, item))
                                    {
@@ -85,12 +83,6 @@
                                            @if(RowEditingTemplate != null)
 										    {
 											    @RowEditingTemplate(item)
-										    }
-										    @if (Columns != null)
-										    {
-											    <CascadingValue Value="MudBaseColumn.Rendermode.Edit" Name="Mode">
-												    @Columns(item)
-											    </CascadingValue>
 										    }
                                         </CascadingValue>
                                    }
@@ -100,12 +92,6 @@
 										{
 											@RowTemplate(item)
 										}
-										@if (Columns != null)
-										{
-											<CascadingValue Value="MudBaseColumn.Rendermode.Item" Name="Mode">
-												@Columns(item)
-											</CascadingValue>
-										}
                                    }
                                </MudTr>
                                @if (ChildRowContent != null)
@@ -114,7 +100,7 @@
                                }   
                                @{ rowIndex++; }
                             </Virtualize>
-                        }
+                        
                     }
                     @if(!(CurrentPageItems != null && CurrentPageItems.Count() > 0)
                         && (Loading ? LoadingContent != null : NoRecordsContent != null)
